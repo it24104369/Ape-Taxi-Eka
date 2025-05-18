@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Admin Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f3f4f6;
+        }
+        .profile-img:hover {
+            border: 2px solid #3AAFA9;
+            box-shadow: 0 0 10px rgba(58, 175, 169, 0.5);
+        }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden">
+
+<!-- Sidebar -->
+    <aside class="w-64 bg-gray-900 text-white flex flex-col p-4">
+        <h1 class="text-2xl font-bold mb-8 text-center w-full text">RideMate Admin</h1>
+        <nav class="flex flex-col gap-4 text-sm">
+            <a href="/admin/dashboard" th:classappend="${activePage == 'dashboard'} ? 'bg-gray-800' : ''" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6"></path>
+                </svg>
+                Dashboard
+            </a>
+            <a href="/admin/passengers" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5.121 17.804A9 9 0 0112 3a9 9 0 016.879 14.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Passenger Management
+            </a>
+            <a href="/bookings" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 17v-4h6v4M3 9l9-6 9 6v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                </svg>
+                Ride Booking Management
+            </a>
+            <a href="/fare" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 8c-1.657 0-3 1.567-3 3.5s1.343 3.5 3 3.5 3-1.567 3-3.5S13.657 8 12 8z"></path>
+                    <path d="M12 1v2m0 18v2m8.66-10.66l1.41-1.41M3.93 4.93L2.52 3.52m0 16.96l1.41-1.41M20.07 4.93l1.41 1.41"></path>
+                </svg>
+                Fare & Payment
+            </a>
+            <a href="/drivers" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 00-8 0v2M8 7a4 4 0 118 0 4 4 0 01-8 0z"></path>
+                </svg>
+                Driver Management
+            </a>
+            <a href="/admin/list" th:classappend="${activePage == 'list'} ? 'bg-gray-800' : ''" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 00-3-3.87M4 21v-2a4 4 0 013-3.87m4-2.13a4 4 0 100-8 4 4 0 000 8z"></path>
+                </svg>
+                Manage Admins
+            </a>
+            <a href="/admin/reviews" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
+                </svg>
+                Feedback & Reviews
+            </a>
+        </nav>
+    </aside>
+
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto flex items-center justify-center p-6">
+    <div class="bg-white border-2 border-[#F9A826] rounded-2xl shadow-2xl w-full max-w-md p-6 flex flex-col items-center">
+        <div class="text-center mb-4">
+            <i class="bi bi-person-circle text-[#3AAFA9] text-4xl"></i>
+        </div>
+        <h2 class="text-2xl font-bold mb-4 text-[#3AAFA9]">My Profile</h2>
+
+        <img th:src="@{${loggedInUser.profilePicturePath} ?: '/images/default-avatar.png'}"
+             alt="Profile Picture"
+             class="w-24 h-24 rounded-full border border-gray-300 mb-4 profile-img"/>
+
+        <div class="text-center space-y-1 text-sm text-gray-700">
+            <p class="font-semibold text-lg" th:text="${loggedInUser.firstName + ' ' + loggedInUser.lastName}">Full Name</p>
+            <p th:text="'Username: ' + ${loggedInUser.username}">Username</p>
+            <p th:text="'Email: ' + ${loggedInUser.email}">Email</p>
+            <p th:text="'Phone: ' + ${loggedInUser.phone}">Phone</p>
+            <p th:text="'Role: ' + ${loggedInUser.role}">Role</p>
+        </div>
+
+        <a href="/admin/logout"
+           class="mt-6 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+            Logout
+        </a>
+    </div>
+</main>
+
+</body>
+</html>

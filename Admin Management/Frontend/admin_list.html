@@ -1,0 +1,155 @@
+<!-- Full code provided below, replacing the necessary conditions only -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body class="bg-gray-100 h-screen overflow-hidden">
+<div class="flex h-full">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-900 text-white flex flex-col p-4">
+        <h1 class="text-2xl font-bold mb-8 text-center w-full text">RideMate Admin</h1>
+        <nav class="flex flex-col gap-4 text-sm">
+            <a href="/admin/dashboard" th:classappend="${activePage == 'dashboard'} ? 'bg-gray-800' : ''" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6"></path>
+                </svg>
+                Dashboard
+            </a>
+            <a href="/admin/passengers" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5.121 17.804A9 9 0 0112 3a9 9 0 016.879 14.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Passenger Management
+            </a>
+            <a href="/bookings" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 17v-4h6v4M3 9l9-6 9 6v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                </svg>
+                Ride Booking Management
+            </a>
+            <a href="/fare" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 8c-1.657 0-3 1.567-3 3.5s1.343 3.5 3 3.5 3-1.567 3-3.5S13.657 8 12 8z"></path>
+                    <path d="M12 1v2m0 18v2m8.66-10.66l1.41-1.41M3.93 4.93L2.52 3.52m0 16.96l1.41-1.41M20.07 4.93l1.41 1.41"></path>
+                </svg>
+                Fare & Payment
+            </a>
+            <a href="/drivers" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 00-8 0v2M8 7a4 4 0 118 0 4 4 0 01-8 0z"></path>
+                </svg>
+                Driver Management
+            </a>
+            <a href="/admin/list" th:classappend="${activePage == 'list'} ? 'bg-gray-800' : ''" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 00-3-3.87M4 21v-2a4 4 0 013-3.87m4-2.13a4 4 0 100-8 4 4 0 000 8z"></path>
+                </svg>
+                Manage Admins
+            </a>
+            <a href="/admin/reviews" class="hover:bg-teal-600 p-2 rounded flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
+                </svg>
+                Feedback & Reviews
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-4 sm:p-8">
+        <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+            <div class="flex items-center gap-4">
+                <h1 class="text-2xl font-bold text-gray-800">Manage Admins</h1>
+                <!-- Only show 'Add Admin' if permission is 'all' -->
+                <a th:if="${loggedInUser.permission == 'all'}" href="/admin/register?source=internal"
+                   class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    Add Admin
+                </a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="/admin/profile" title="My Profile">
+                    <img th:src="@{${loggedInUser.profilePicturePath} ?: '/images/default-avatar.png'}"
+                         alt="profile"
+                         class="rounded-full w-10 h-10 border border-gray-300 hover:ring-2 ring-teal-400 transition"/>
+                </a>
+                <a href="/admin/logout" class="block bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-auto max-h-[75vh]">
+            <table class="min-w-full bg-white rounded-lg shadow-md border border-teal-300 text-sm">
+                <thead class="bg-teal-600 text-white font-semibold">
+                <tr>
+                    <th class="px-4 py-3 text-center">ID</th>
+                    <th class="px-4 py-3 text-center">First Name</th>
+                    <th class="px-4 py-3 text-center">Last Name</th>
+                    <th class="px-4 py-3 text-center">Username</th>
+                    <th class="px-4 py-3 text-center">Profile</th>
+                    <th class="px-4 py-3 text-center">Email</th>
+                    <th class="px-4 py-3 text-center">Phone</th>
+                    <th class="px-4 py-3 text-center">Role</th>
+                    <th class="px-4 py-3 text-center">Permission</th>
+                    <th class="px-4 py-3 text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="text-gray-700" th:each="admin, stat : ${admins}">
+                <tr class="border-t">
+                    <td class="px-4 py-3 text-center" th:text="${stat.count}">1</td>
+                    <td class="px-4 py-3 text-center" th:text="${#strings.arraySplit(admin, ',')[4]}">FirstName</td>
+                    <td class="px-4 py-3 text-center" th:text="${#strings.arraySplit(admin, ',')[5]}">LastName</td>
+                    <td class="px-4 py-3 text-center" th:text="${#strings.arraySplit(admin, ',')[0]}">Username</td>
+                    <td class="px-4 py-3 text-center">
+                        <img th:src="@{${#strings.arraySplit(admin, ',').length > 7 ? #strings.arraySplit(admin, ',')[7] : '/images/default-avatar.png'}}"
+                             alt="Profile"
+                             class="h-10 w-10 object-cover rounded-full border border-gray-300"/>
+                    </td>
+                    <td class="px-4 py-3 text-center" th:text="${#strings.arraySplit(admin, ',')[2]}">Email</td>
+                    <td class="px-4 py-3 text-center" th:text="${#strings.arraySplit(admin, ',')[6]}">Phone</td>
+                    <td class="px-4 py-3 text-center" th:text="${#strings.arraySplit(admin, ',')[3]}">Role</td>
+                    <td class="px-4 py-3 text-center" th:text="${#strings.arraySplit(admin, ',')[8]}">Permission</td>
+                    <td class="px-4 py-3 text-center">
+                        <div class="flex space-x-2 justify-center">
+                            <!-- Show Edit button if logged-in user has 'all' or 'update' permission -->
+                            <a th:if="${(loggedInUser.permission == 'all' or loggedInUser.permission == 'update')}"
+                            th:href="@{'/admin/edit/' + ${#strings.arraySplit(admin, ',')[0]}}"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md transition">
+                                <i class="bi bi-pencil-square"></i> Edit</a>
+
+                            <!-- Delete button (only allowed if 'all' and not own account) -->
+                            <a th:if="${loggedInUser.permission == 'all' and #strings.trim(#strings.arraySplit(admin, ',')[0]) != loggedInUser.username}"
+                               th:href="@{'/admin/delete'(username=${#strings.arraySplit(admin, ',')[0]})}"
+                               class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                               onclick="return confirm('Are you sure you want to delete this admin?');">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+
+                            <!-- Prevent deleting own account -->
+                            <a th:if="${#strings.trim(#strings.arraySplit(admin, ',')[0]) == loggedInUser.username}"
+                               href="#"
+                               onclick="alert('❌ You cannot delete your own account.'); return false;"
+                               class="bg-gray-400 text-white px-2 py-1 rounded cursor-not-allowed">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+
+                            <!-- If not same user and permission is 'read' or 'update' (but not 'all') -->
+                            <span th:if="${loggedInUser.permission == 'read' and #strings.trim(#strings.arraySplit(admin, ',')[0]) != loggedInUser.username}" class="text-gray-400 italic">No Actions</span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>
