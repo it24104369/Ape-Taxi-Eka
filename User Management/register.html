@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RideMate - Passenger Registration</title>
+  <link rel="stylesheet" href="/user/css/styles.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <!-- Background shapes -->
+  <div class="bg-shape-1"></div>
+  <div class="bg-shape-2"></div>
+
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-car-side"></i>
+      <span>RideMate</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/user/register" class="active">Register</a></li>
+      <li><a href="/user/login">Login</a></li>
+      <li><a href="/drivers/register">Drive</a>
+      
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="login-section">
+      <div class="login-card">
+        <div class="card-header">
+          <h2>Create Passenger Account</h2>
+          <p>Join as a passenger and start your ride!</p>
+        </div>
+
+        <!-- Optional message area (like login) -->
+        <div id="message" style="color: green; font-weight: bold; margin-bottom: 15px;"></div>
+
+        <form class="registration-form" action="/user/register/passenger" method="post">
+          
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" />
+          </div>
+          <button type="submit" class="btn btn-primary">Register</button>
+
+          <div class="card-footer">
+            <p>Already have an account? <a href="/user/login">Login here</a></p>
+          </div>
+        </form>
+      </div>
+
+      
+    </section>
+  </main>
+
+  <script src="/user/js/script.js"></script>
+
+  <script>
+    function getParameterByName(name) {
+      const url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+      const results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    window.onload = function() {
+      const message = getParameterByName('msg');
+      if (message) {
+        document.getElementById('message').textContent = message;
+      }
+    };
+  </script>
+</body>
+</html>

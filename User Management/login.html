@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RideMate - Login</title>
+    <link rel="stylesheet" href="/user/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+    <style>
+        .flash-message {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .flash-message.success {
+            background-color: #e6ffed;
+            color: #2e7d32;
+            border: 1px solid #a3d9a5;
+        }
+        .flash-message.error {
+            background-color: #ffe6e6;
+            color: #c62828;
+            border: 1px solid #e0a0a0;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shape-1"></div>
+    <div class="bg-shape-2"></div>
+    
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-car-side"></i>
+            <span>RideMate</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/user/register">Register</a></li>
+            <li><a href="/user/login" class="active">Login</a></li>
+            <li><a href="/drivers/register">Drive</a>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section class="login-section">
+            <div class="login-card">
+                <div class="card-header">
+                    <h2>Welcome Back</h2>
+                    <p>Please login to your account</p>
+                </div>
+
+                <!-- Flash Messages from Spring Boot -->
+                <div th:if="${success}" class="flash-message success">
+                    <p th:text="${success}"></p>
+                </div>
+                <div th:if="${error}" class="flash-message error">
+                    <p th:text="${error}"></p>
+                </div>
+
+                <!-- Centered JavaScript Message -->
+                <div id="message" style="
+                    text-align: center;
+                    color: green;
+                    font-weight: bold;
+                    margin-bottom: 15px;
+                    background-color: #e6ffed;
+                    border: 1px solid #a3d9a5;
+                    padding: 10px;
+                    border-radius: 8px;
+                    display: none;
+                "></div>
+
+                <form class="login-form" method="post" action="/user/login">
+                    <div class="form-group">
+                        <label for="login-username">Username or Email</label>
+                        <input type="text" id="login-username" name="username" placeholder="Enter username or email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" name="password" placeholder="Enter password" required>
+                    </div>
+                
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+
+                <div class="card-footer">
+                    <p>Don't have an account? <a href="/user/register">Register here</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/user/js/script.js"></script>
+
+    <script>
+      function getParameterByName(name) {
+        const url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+        const results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+      }
+
+      window.onload = function() {
+        const message = getParameterByName('msg');
+        if (message) {
+          const msgDiv = document.getElementById('message');
+          msgDiv.textContent = message;
+          msgDiv.style.display = "block";
+        }
+      };
+    </script>
+
+</body>
+</html>
